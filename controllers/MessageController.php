@@ -540,6 +540,7 @@ class MessageController extends Controller
 
             return true;
         } else {
+            Yii::debug($model->getErrors());
             Yii::$app->session->setFlash('danger', Yii::t('message',
                 'The message could not be sent: '
                 . implode(', ', $model->getErrorSummary(true))));
