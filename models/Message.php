@@ -204,7 +204,7 @@ class Message extends ActiveRecord
             [['title', 'message', 'context', 'params'], 'string'],
             [['cc', 'id', 'hash', 'created_at'], 'safe'],
             [['from', 'cc', 'status'], 'integer'],
-            ['expires_at', 'date'],
+            ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
