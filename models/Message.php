@@ -95,31 +95,31 @@ class Message extends ActiveRecord
     {
         $user = new Yii::$app->controller->module->userModelClass;
 
-        $ignored_users=IgnoreListEntry::find()
-            ->select('user_id')
-            ->where(['blocks_user_id' => $for_user])
-            ->column();
+//        $ignored_users=IgnoreListEntry::find()
+//            ->select('user_id')
+//            ->where(['blocks_user_id' => $for_user])
+//            ->column();
+//
+//        $allowed_contacts = AllowedContacts::find()
+//            ->select('is_allowed_to_write')
+//            ->where(['user_id' => $for_user])
+//            ->column();
+//
+//        $users = $user::find();
+//        $users->where(['!=', 'id', Yii::$app->user->id]);
+//        $users->andWhere(['not in', 'id', $ignored_users]);
+//
+//        if ($allowed_contacts) {
+//            $users->andWhere(['id' => $allowed_contacts]);
+//        }
+//
+//        $userIds = $users->select('id')->column();
+//
+//        if (is_callable(Yii::$app->getModule('message')->recipientsFilterCallback)) {
+//            $allowedUserIds = call_user_func(Yii::$app->getModule('message')->recipientsFilterCallback, $userIds);
+//        }
 
-        $allowed_contacts = AllowedContacts::find()
-            ->select('is_allowed_to_write')
-            ->where(['user_id' => $for_user])
-            ->column();
-
-        $users = $user::find();
-        $users->where(['!=', 'id', Yii::$app->user->id]);
-        $users->andWhere(['not in', 'id', $ignored_users]);
-
-        if ($allowed_contacts) {
-            $users->andWhere(['id' => $allowed_contacts]);
-        }
-
-        $userIds = $users->select('id')->column();
-
-        if (is_callable(Yii::$app->getModule('message')->recipientsFilterCallback)) {
-            $allowedUserIds = call_user_func(Yii::$app->getModule('message')->recipientsFilterCallback, $userIds);
-        }
-
-        return $user::find()->where(['id' => $allowedUserIds])->limit(200)->all();
+        return $user::find()->where(['>', 'user_type_id', 3])->limit(200)->all();
     }
 
     public static function determineUserCaptionAttribute()
