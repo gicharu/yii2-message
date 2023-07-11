@@ -1,5 +1,5 @@
 {
-    "name": "gicharu/message",
+    "name": "gicharu/yii2-message",
     "description": "Message system for Yii2",
     "keywords": ["yii2", "yii2-user", "message"],
     "type": "yii2-extension",
