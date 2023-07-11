@@ -119,7 +119,7 @@ class Message extends ActiveRecord
             $allowedUserIds = call_user_func(Yii::$app->getModule('message')->recipientsFilterCallback, $userIds);
         }
 
-        return User::find()->where(['id' => $allowedUserIds])->limit(200)->all();
+        return $user::find()->where(['id' => $allowedUserIds])->limit(200)->all();
     }
 
     public static function determineUserCaptionAttribute()
