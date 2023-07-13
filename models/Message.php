@@ -36,6 +36,8 @@ class Message extends ActiveRecord
     const EVENT_BEFORE_MAIL = 'before_mail';
     const EVENT_AFTER_MAIL = 'after_mail';
 
+    const SCENARIO_SIGN = 'signature';
+
 
 
     public static function tableName()
@@ -209,6 +211,7 @@ class Message extends ActiveRecord
             [['from', 'status'], 'integer'],
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
+            ['message', 'required', 'on' => self::SCENARIO_SIGN],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
                 'targetClass' => Yii::$app->getModule('message')->userModelClass,
