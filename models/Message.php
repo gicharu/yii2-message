@@ -205,7 +205,7 @@ class Message extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'to', 'doc_no'], 'required'],
+            [['title', 'to', 'doc_no'], 'required', 'on' => self::SCENARIO_DEFAULT],
             [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
             [['id', 'hash', 'created_at'], 'safe'],
             [['from', 'status'], 'integer'],
