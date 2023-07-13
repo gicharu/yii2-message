@@ -407,6 +407,7 @@ class Message extends ActiveRecord
             'created_at' => Yii::t('message', 'Date of Issuance'),
             'context' => Yii::t('message', 'context'),
             'upload_id' => Yii::t('message', 'Upload Files'),
+            'update_type' => Yii::t('message', 'Type of update'),
             'expires_at' => Yii::t('message', 'Expires On'),
         ];
     }
