@@ -212,6 +212,8 @@ class Message extends ActiveRecord
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
             ['message', 'required', 'on' => self::SCENARIO_SIGN],
+            [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
+
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
                 'targetClass' => Yii::$app->getModule('message')->userModelClass,
