@@ -204,7 +204,7 @@ class Message extends ActiveRecord
             [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
             [['id', 'hash', 'created_at'], 'safe'],
             [['from', 'status'], 'integer'],
-            ['date_of_issuance', 'date', 'format' => 'yyyy-MM-dd'],
+            ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
@@ -393,9 +393,10 @@ class Message extends ActiveRecord
             'title' => Yii::t('message', 'Subject'),
             'message' => Yii::t('message', 'Content'),
             'params' => Yii::t('message', 'params'),
-            'created_at' => Yii::t('message', 'created at'),
+            'created_at' => Yii::t('message', 'Date of Issuance'),
             'context' => Yii::t('message', 'context'),
             'upload_id' => Yii::t('message', 'Upload Files'),
+            'expires_at' => Yii::t('message', 'Expires On'),
         ];
     }
 
