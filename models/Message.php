@@ -3,6 +3,7 @@
 namespace thyseus\message\models;
 
 use app\models\User;
+use backend\models\UploadedFile;
 use thyseus\message\jobs\EmailJob;
 use thyseus\message\validators\IgnoreListValidator;
 use yii;
@@ -449,5 +450,10 @@ class Message extends ActiveRecord
     public function getSender()
     {
         return $this->hasOne(Yii::$app->getModule('message')->userModelClass, ['id' => 'from']);
+    }
+
+    public function getUpload()
+    {
+        return $this->hasOne(UploadedFile::class,  ['id' => 'upload_id']);
     }
 }
