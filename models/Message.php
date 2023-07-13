@@ -200,11 +200,11 @@ class Message extends ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title', 'message', 'context', 'params'], 'string'],
-            [['cc', 'id', 'hash', 'created_at'], 'safe'],
+            [['title', 'to', 'doc_no'], 'required'],
+            [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
+            [['id', 'hash', 'created_at'], 'safe'],
             [['from', 'status'], 'integer'],
-            ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
+            ['date_of_issuance', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
@@ -389,12 +389,13 @@ class Message extends ActiveRecord
         return [
             'id' => Yii::t('message', '#'),
             'from' => Yii::t('message', 'from'),
-            'to' => Yii::t('message', 'to'),
-            'title' => Yii::t('message', 'title'),
-            'message' => Yii::t('message', 'message'),
+            'to' => Yii::t('message', 'Scope of issuance'),
+            'title' => Yii::t('message', 'Subject'),
+            'message' => Yii::t('message', 'Content'),
             'params' => Yii::t('message', 'params'),
             'created_at' => Yii::t('message', 'created at'),
             'context' => Yii::t('message', 'context'),
+            'upload_id' => Yii::t('message', 'Upload Files'),
         ];
     }
 
