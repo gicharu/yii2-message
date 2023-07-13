@@ -35,6 +35,7 @@ class Message extends ActiveRecord
     const EVENT_BEFORE_MAIL = 'before_mail';
     const EVENT_AFTER_MAIL = 'after_mail';
 
+
     public static function tableName()
     {
         return '{{%message}}';
@@ -240,6 +241,14 @@ class Message extends ActiveRecord
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => null,
                 'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => 'mdm\upload\UploadBehavior',
+                'attribute' => 'upload_id', // required, use to receive input file
+//                'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
+                'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
+                'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
+                'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
             ],
         ];
     }
