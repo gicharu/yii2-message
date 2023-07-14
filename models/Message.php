@@ -214,7 +214,7 @@ class Message extends ActiveRecord
             [['from', 'status'], 'integer'],
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
-            ['signature', 'required', 'on' => self::SCENARIO_SIGN],
+            //['signature', 'required', 'on' => self::SCENARIO_SIGN],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
 
             [['to'], IgnoreListValidator::class],
