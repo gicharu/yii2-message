@@ -164,12 +164,15 @@ class Message extends ActiveRecord
      */
     public static function userFilter($user_id)
     {
+        $users = Message::find()
+            ->select('from')
+            ->groupBy('from');
+        if(Yii::$app->user->identity->user_type_id > 1) {
+            $users->where(['to' => $user_id]);
+
+        }
         return ArrayHelper::map(
-            Message::find()
-                ->where(['to' => $user_id])
-                ->select('from')
-                ->groupBy('from')
-                ->all(),
+           $users->all(),
             'from',
             'sender.username'
         );
@@ -211,7 +214,7 @@ class Message extends ActiveRecord
             [['from', 'status'], 'integer'],
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
-            ['message', 'required', 'on' => self::SCENARIO_SIGN],
+            ['signature', 'required', 'on' => self::SCENARIO_SIGN],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
 
             [['to'], IgnoreListValidator::class],
@@ -254,6 +257,14 @@ class Message extends ActiveRecord
                 'attribute' => 'upload_id', // required, use to receive input file
                 'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
                 'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
+                'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
+                'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
+            ],
+            [
+                'class' => 'mdm\upload\UploadBehavior',
+                'attribute' => 'signature', // required, use to receive input file
+                'savedAttribute' => 'signature', // optional, use to link model with saved file.
+                'uploadPath' => 'uploads/signatures', // saved directory. default to '@runtime/upload'
                 'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
                 'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
             ],
@@ -461,5 +472,9 @@ class Message extends ActiveRecord
     public function getUpload()
     {
         return $this->hasOne(UploadedFile::class,  ['id' => 'upload_id']);
+    }
+    public function getSign()
+    {
+        return $this->hasOne(UploadedFile::class,  ['id' => 'signature']);
     }
 }
