@@ -209,6 +209,7 @@ class Message extends ActiveRecord
     {
         return [
             [['title', 'to', 'doc_no'], 'required', 'on' => self::SCENARIO_DEFAULT],
+            ['doc_no', 'unique'],
             [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
             [['id', 'hash', 'created_at', 'upload_id'], 'safe'],
             [['from', 'status'], 'integer'],
