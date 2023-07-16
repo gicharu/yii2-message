@@ -211,7 +211,7 @@ class Message extends ActiveRecord
             [['title', 'to', 'doc_no'], 'required', 'on' => self::SCENARIO_DEFAULT],
             ['doc_no', 'unique'],
             [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
-            [['id', 'hash', 'created_at', 'upload_id'], 'safe'],
+            [['id', 'hash', 'created_at', 'upload_id', 'ack_at'], 'safe'],
             [['from', 'status'], 'integer'],
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
