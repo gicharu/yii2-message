@@ -209,13 +209,13 @@ class Message extends ActiveRecord
     {
         return [
             [['title', 'to', 'doc_no'], 'required', 'on' => self::SCENARIO_DEFAULT],
-            ['doc_no', 'unique'],
+//            ['doc_no', 'unique'],
             [['title', 'message', 'context', 'params', 'confidentiality', 'update_type'], 'string'],
             [['id', 'hash', 'created_at', 'upload_id', 'ack_at'], 'safe'],
             [['from', 'status'], 'integer'],
             ['expires_at', 'date', 'format' => 'yyyy-MM-dd'],
             [['title'], 'string', 'max' => 255],
-            ['signature', 'safe', 'on' => self::SCENARIO_SIGN],
+            [['signature', 'çontact'], 'safe'],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
 
             [['to'], IgnoreListValidator::class],
