@@ -217,7 +217,7 @@ class Message extends ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['signature', 'çontact'], 'safe'],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
-
+            ['upload_id', 'file', 'extensions' => ['pdf']],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
                 'targetClass' => Yii::$app->getModule('message')->userModelClass,
