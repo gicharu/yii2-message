@@ -52,7 +52,7 @@ class MessageSearch extends Message
         $query = Message::find();
         $query->select(' *, 
   CASE 
-    WHEN COUNT(*) OVER (PARTITION BY title) > 1 THEN ROW_NUMBER() OVER (PARTITION BY title ORDER BY id)
+    WHEN COUNT(*) OVER (PARTITION BY title) > 1 THEN ROW_NUMBER() OVER (PARTITION BY title ORDER BY id desc)
     ELSE 0
   END AS sequence');
         // add conditions that should always apply here
@@ -126,6 +126,7 @@ class MessageSearch extends Message
         $query->andFilterWhere(['like', 'hash', $this->hash])
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'message', $this->message]);
+//        $query->orderBy(['title' => SORT_ASC, 'created_at' => ''])
 
         return $dataProvider;
     }
