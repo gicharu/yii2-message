@@ -14,7 +14,6 @@ class MessageSearch extends Message
     public $sent = false;
     public $draft = false;
     public $templates = false;
-    public $sequence;
 
     /**
      * @inheritdoc

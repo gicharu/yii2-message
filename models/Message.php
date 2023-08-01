@@ -38,6 +38,9 @@ class Message extends ActiveRecord
 
     const SCENARIO_SIGN = 'signature';
 
+    public $sequence;
+
+
 
 
     public static function tableName()
