@@ -50,8 +50,7 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find();
-        $query->select('SELECT 
- *, 
+        $query->select(' *, 
   CASE 
     WHEN COUNT(*) OVER (PARTITION BY title) > 1 THEN ROW_NUMBER() OVER (PARTITION BY title ORDER BY id)
     ELSE 0
