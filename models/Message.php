@@ -190,6 +190,13 @@ class Message extends ActiveRecord
         ])->one();
     }
 
+    public static function getRecipientSignature($user_id) {
+        return Message::find()->where([
+            'to' => $user_id,
+            'status' => Message::STATUS_SIGNATURE,
+        ])->one();
+    }
+
     /**
      * @param $user_id
      * @return array|null|Message|ActiveRecord
