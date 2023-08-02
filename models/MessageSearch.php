@@ -49,7 +49,7 @@ class MessageSearch extends Message
      */
     public function search($params)
     {
-        $query = Message::find();
+        $query = Message::find()->alias('m');
         $query->select(' m.*,
     CASE
         WHEN d.cnt > 1 THEN (
@@ -62,10 +62,8 @@ class MessageSearch extends Message
                 AND id >= m.id
         )
         ELSE 0
-    END AS sequence
-FROM
-    message m
-    LEFT JOIN (
+    END AS sequence')
+            ->join('left','
         SELECT
             title,
             COUNT(*) AS cnt
@@ -75,7 +73,6 @@ FROM
             title
     ) d ON m.title = d.title');
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
