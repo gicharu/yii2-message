@@ -51,17 +51,20 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find();
-        $subQuery = Message::find()
-            ->select(['title', 'COUNT(*) AS cnt'])
-            ->from('message')
-            ->groupBy('title');
-        $query->select([
+        if(\Yii::$app->user->identity->user_type_id == 1) {
+            $subQuery = Message::find()
+                ->select(['title', 'COUNT(*) AS cnt'])
+                ->from('message')
+                ->groupBy('title');
+            $query->select([
                 'm.*',
-                'sequence' => new Expression('CASE WHEN d.cnt > 1 THEN (SELECT COUNT(*) FROM message WHERE title = m.title AND id >= m.id) ELSE 0 END')
+                'sequence' => new Expression(
+                    'CASE WHEN d.cnt > 1 THEN (SELECT COUNT(*) FROM message WHERE title = m.title AND id >= m.id) ELSE 0 END'
+                )
             ])
-            ->from(['m' => 'message'])
-            ->leftJoin(['d' => $subQuery], 'm.title = d.title');
-
+                ->from(['m' => 'message'])
+                ->leftJoin(['d' => $subQuery], 'm.title = d.title');
+        }
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
