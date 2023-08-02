@@ -4,6 +4,7 @@ namespace thyseus\message\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 /**
  * MessageSearch represents the model behind the search form about `app\models\Message`.
@@ -50,28 +51,17 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find()->alias('m');
-        $query->select(' m.*,
-    CASE
-        WHEN d.cnt > 1 THEN (
-            SELECT
-                COUNT(*)
-            FROM
-                message
-            WHERE
-                title = m.title
-                AND id >= m.id
-        )
-        ELSE 0
-    END AS sequence')
-            ->join('left','
-        SELECT
-            title,
-            COUNT(*) AS cnt
-        FROM
-            message
-        GROUP BY
-            title
-    ) d ON m.title = d.title');
+        $subQuery = Message::find()
+            ->select(['title', 'COUNT(*) AS cnt'])
+            ->from('message')
+            ->groupBy('title');
+        $query->select([
+                'm.*',
+                'sequence' => new Expression('CASE WHEN d.cnt > 1 THEN (SELECT COUNT(*) FROM message WHERE title = m.title AND id >= m.id) ELSE 0 END')
+            ])
+            ->from(['m' => 'message'])
+            ->leftJoin(['d' => $subQuery], 'm.title = d.title');
+
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
