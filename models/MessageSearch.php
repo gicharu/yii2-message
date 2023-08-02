@@ -50,7 +50,7 @@ class MessageSearch extends Message
      */
     public function search($params)
     {
-        $query = Message::find()->alias('m');
+        $query = Message::find();
         $subQuery = Message::find()
             ->select(['title', 'COUNT(*) AS cnt'])
             ->from('message')
