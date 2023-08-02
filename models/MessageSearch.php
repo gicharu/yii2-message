@@ -50,11 +50,30 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find();
-        $query->select(' *, 
-  CASE 
-    WHEN COUNT(*) OVER (PARTITION BY title) > 1 THEN ROW_NUMBER() OVER (PARTITION BY title ORDER BY id desc)
-    ELSE 0
-  END AS sequence');
+        $query->select(' m.*,
+    CASE
+        WHEN d.cnt > 1 THEN (
+            SELECT
+                COUNT(*)
+            FROM
+                message
+            WHERE
+                title = m.title
+                AND id >= m.id
+        )
+        ELSE 0
+    END AS sequence
+FROM
+    message m
+    LEFT JOIN (
+        SELECT
+            title,
+            COUNT(*) AS cnt
+        FROM
+            message
+        GROUP BY
+            title
+    ) d ON m.title = d.title');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
