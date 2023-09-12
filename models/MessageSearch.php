@@ -55,7 +55,7 @@ class MessageSearch extends Message
             $subQuery = Message::find()
                 ->select(['title', 'COUNT(*) AS cnt'])
                 ->from('message')
-                ->groupBy('title');
+                ->groupBy('d.title');
             $query->select([
                 'm.*',
                 'sequence' => new Expression(
