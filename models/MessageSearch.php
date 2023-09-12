@@ -53,7 +53,7 @@ class MessageSearch extends Message
         $query = Message::find();
         if(\Yii::$app->user->identity->user_type_id == 1) {
             $subQuery = Message::find()
-                ->select(['title', 'COUNT(*) AS cnt'])
+                ->select(['d.title', 'COUNT(*) AS cnt'])
                 ->from('message')
                 ->groupBy('d.title');
             $query->select([
