@@ -133,7 +133,7 @@ class MessageSearch extends Message
         ]]);
 
         $query->andFilterWhere(['like', 'hash', $this->hash])
-            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'm.title', $this->title])
             ->andFilterWhere(['like', 'message', $this->message]);
 //        $query->orderBy(['title' => SORT_ASC, 'created_at' => ''])
 
