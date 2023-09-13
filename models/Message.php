@@ -227,7 +227,7 @@ class Message extends ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['signature', 'çontact'], 'safe'],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
-            ['upload_id', 'file', 'extensions' => ['pdf']],
+            ['files', 'file', 'extensions' => ['pdf', 'jpg', 'jpeg', 'png']],
             ['signature', 'file', 'extensions' => ['png', 'jpg', 'webp']],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
@@ -264,14 +264,14 @@ class Message extends ActiveRecord
                 'updatedAtAttribute' => null,
                 'value' => new Expression('NOW()'),
             ],
-            [
-                'class' => 'mdm\upload\UploadBehavior',
-                'attribute' => 'upload_id', // required, use to receive input file
-                'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
-                'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
-                'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
-                'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
-            ],
+            // [
+            //     'class' => 'mdm\upload\UploadBehavior',
+            //     'attribute' => 'upload_id', // required, use to receive input file
+            //     'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
+            //     'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
+            //     'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
+            //     'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
+            // ],
             [
                 'class' => 'mdm\upload\UploadBehavior',
                 'attribute' => 'signature', // required, use to receive input file
@@ -434,7 +434,7 @@ class Message extends ActiveRecord
             'params' => Yii::t('message', 'params'),
             'created_at' => Yii::t('message', 'Date of Issuance'),
             'context' => Yii::t('message', 'context'),
-            'upload_id' => Yii::t('message', 'Upload Files'),
+            'files' => Yii::t('message', 'Upload Files'),
             'update_type' => Yii::t('message', 'Type of update'),
             'expires_at' => Yii::t('message', 'Expires On'),
         ];
@@ -481,10 +481,10 @@ class Message extends ActiveRecord
         return $this->hasOne(Yii::$app->getModule('message')->userModelClass, ['id' => 'from']);
     }
 
-    public function getUpload()
-    {
-        return $this->hasOne(UploadedFile::class,  ['id' => 'upload_id']);
-    }
+    // public function getUpload()
+    // {
+    //     return $this->hasOne(UploadedFile::class,  ['id' => 'upload_id']);
+    // }
     public function getSign()
     {
         return $this->hasOne(UploadedFile::class,  ['id' => 'signature']);
