@@ -227,7 +227,7 @@ class Message extends ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['signature', 'çontact'], 'safe'],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
-            ['files', 'file', 'extensions' => ['pdf', 'jpg', 'jpeg', 'png']],
+            ['files', 'file', 'extensions' => ['pdf', 'jpg', 'jpeg', 'png'], 'maxFiles' => 5],
             ['signature', 'file', 'extensions' => ['png', 'jpg', 'webp']],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
@@ -264,14 +264,6 @@ class Message extends ActiveRecord
                 'updatedAtAttribute' => null,
                 'value' => new Expression('NOW()'),
             ],
-            // [
-            //     'class' => 'mdm\upload\UploadBehavior',
-            //     'attribute' => 'upload_id', // required, use to receive input file
-            //     'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
-            //     'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
-            //     'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
-            //     'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
-            // ],
             [
                 'class' => 'mdm\upload\UploadBehavior',
                 'attribute' => 'signature', // required, use to receive input file
