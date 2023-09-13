@@ -14,6 +14,7 @@ use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Json;
 
 /**
  * Class Message
@@ -289,6 +290,13 @@ class Message extends ActiveRecord
         }
 
         return parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function afterFind() {
+        $this->files = Json::decode($this->files);
+
+        return parent::afterFind();
+
     }
 
     protected function handleEmails()
