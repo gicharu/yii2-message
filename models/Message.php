@@ -228,7 +228,7 @@ class Message extends ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['signature', 'çontact'], 'safe'],
             [['to', 'doc_no'], 'safe', 'on' => self::SCENARIO_SIGN],
-            ['files', 'file', 'extensions' => ['pdf', 'jpg', 'jpeg', 'png'], 'maxFiles' => 5],
+            ['files', 'file', 'extensions' => ['pdf']],
             ['signature', 'file', 'extensions' => ['png', 'jpg', 'webp']],
             [['to'], IgnoreListValidator::class],
             [['to'], 'exist',
@@ -273,6 +273,14 @@ class Message extends ActiveRecord
                 'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
                 'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
             ],
+            [
+                'class' => 'mdm\upload\UploadBehavior',
+                'attribute' => 'files', // required, use to receive input file
+                'savedAttribute' => 'files', // optional, use to link model with saved file.
+                'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
+                'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
+                'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
+            ],
         ];
     }
 
@@ -293,7 +301,6 @@ class Message extends ActiveRecord
     }
 
     public function afterFind() {
-        $this->files = Json::decode($this->files);
 
         return parent::afterFind();
 
