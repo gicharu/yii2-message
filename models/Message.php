@@ -14,7 +14,6 @@ use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use yii\helpers\Json;
 
 /**
  * Class Message
@@ -267,17 +266,17 @@ class Message extends ActiveRecord
             ],
             [
                 'class' => 'mdm\upload\UploadBehavior',
-                'attribute' => 'signature', // required, use to receive input file
-                'savedAttribute' => 'signature', // optional, use to link model with saved file.
-                'uploadPath' => 'uploads/signatures', // saved directory. default to '@runtime/upload'
+                'attribute' => 'upload_id', // required, use to receive input file
+                'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
+                'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
                 'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
                 'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
             ],
             [
                 'class' => 'mdm\upload\UploadBehavior',
-                'attribute' => 'files', // required, use to receive input file
-                'savedAttribute' => 'files', // optional, use to link model with saved file.
-                'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
+                'attribute' => 'signature', // required, use to receive input file
+                'savedAttribute' => 'signature', // optional, use to link model with saved file.
+                'uploadPath' => 'uploads/signatures', // saved directory. default to '@runtime/upload'
                 'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
                 'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
             ],
@@ -298,12 +297,6 @@ class Message extends ActiveRecord
         }
 
         return parent::afterSave($insert, $changedAttributes);
-    }
-
-    public function afterFind() {
-
-        return parent::afterFind();
-
     }
 
     protected function handleEmails()
@@ -441,7 +434,7 @@ class Message extends ActiveRecord
             'params' => Yii::t('message', 'params'),
             'created_at' => Yii::t('message', 'Date of Issuance'),
             'context' => Yii::t('message', 'context'),
-            'files' => Yii::t('message', 'Upload Files'),
+            'upload_id' => Yii::t('message', 'Upload Files'),
             'update_type' => Yii::t('message', 'Type of update'),
             'expires_at' => Yii::t('message', 'Expires On'),
         ];
@@ -488,10 +481,10 @@ class Message extends ActiveRecord
         return $this->hasOne(Yii::$app->getModule('message')->userModelClass, ['id' => 'from']);
     }
 
-    // public function getUpload()
-    // {
-    //     return $this->hasOne(UploadedFile::class,  ['id' => 'upload_id']);
-    // }
+    public function getUpload()
+    {
+        return $this->hasOne(UploadedFile::class,  ['id' => 'files']);
+    }
     public function getSign()
     {
         return $this->hasOne(UploadedFile::class,  ['id' => 'signature']);
