@@ -266,8 +266,8 @@ class Message extends ActiveRecord
             ],
             [
                 'class' => 'mdm\upload\UploadBehavior',
-                'attribute' => 'upload_id', // required, use to receive input file
-                'savedAttribute' => 'upload_id', // optional, use to link model with saved file.
+                'attribute' => 'files', // required, use to receive input file
+                'savedAttribute' => 'files', // optional, use to link model with saved file.
                 'uploadPath' => 'uploads/messages', // saved directory. default to '@runtime/upload'
                 'autoSave' => true, // when true then uploaded file will be save before ActiveRecord::save()
                 'autoDelete' => true, // when true then uploaded file will deleted before ActiveRecord::delete()
