@@ -68,7 +68,7 @@ class MessageSearch extends Message
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC, 'id' => SORT_ASC]]
         ]);
 
         $this->load($params);
