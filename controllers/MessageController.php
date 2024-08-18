@@ -518,18 +518,15 @@ class MessageController extends Controller
         $model->from = Yii::$app->user->id;
         $model->to = $recipient_id;
         $model->status = Message::STATUS_UNREAD;
-        $recipientName = $model->recipient->first_name . ' ' . $model->recipient->last_name;
         if ($model->save()) {
             if ($origin
                 && $origin->to == Yii::$app->user->id
                 && $origin->status == Message::STATUS_READ) {
                 $origin->updateAttributes(['status' => Message::STATUS_ANSWERED]);
-                Yii::$app->telegram->sendMessage("Reply from $recipientName received");
 
                 Yii::$app->session->setFlash('success', Yii::t('message',
                     'The message has been answered.'));
             } else {
-                Yii::$app->telegram->sendMessage("Message sent to $recipientName");
 
                 Yii::$app->session->setFlash('success', Yii::t('message',
                     'The message has been sent.'));
